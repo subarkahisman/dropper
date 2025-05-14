@@ -1,4 +1,4 @@
-import { migrate } from "drizzle-orm/neon-serverless/migrator";
+import { migrate } from "drizzle-orm/neon-http/migrator";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 
@@ -8,4 +8,17 @@ dotenv.config({ path: ".env.local" });
 
 if (!process.env.DATAABASE_URL) {
   throw new Error("Database url is not set in .env.local");
+}
+
+async function runMigration() {
+  try {
+    const sql = neon(process.env.DATABASE_URL!);
+    const db = drizzle(sql);
+
+    await migrate(db, { migrationsFolder: "./drizzle" });
+    console.log("All migration succesfully done.");
+  } catch (error) {
+    console.log("All migration succesfully done.");
+    process.exit(1);
+  }
 }
