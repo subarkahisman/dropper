@@ -18,7 +18,7 @@ async function runMigration() {
     await migrate(db, { migrationsFolder: "./drizzle" });
     console.log("All migration succesfully done.");
   } catch (error) {
-    console.log("All migration succesfully done.");
+    console.log("Migration failed : ", error);
     process.exit(1);
   }
 }
